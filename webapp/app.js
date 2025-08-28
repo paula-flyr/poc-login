@@ -1,5 +1,3 @@
-import Keycloak from '/keycloak.js';
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. Configuración de Keycloak para el entorno Docker ---
