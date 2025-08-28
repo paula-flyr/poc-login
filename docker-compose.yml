@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  proxy:
+    image: nginx:1.21-alpine
+    container_name: proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/av.com.crt:/etc/nginx/av.com.crt
+      - ./nginx/av.com.key:/etc/nginx/av.com.key
+      - ./nginx/sso.lm.com.crt:/etc/nginx/sso.lm.com.crt
+      - ./nginx/sso.lm.com.key:/etc/nginx/sso.lm.com.key
+    depends_on:
+      - webapp
+      - keycloak
+
+  webapp:
+    image: nginx:1.21-alpine
+    container_name: webapp
+    volumes:
+      - ./webapp:/usr/share/nginx/html
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.1
+    container_name: keycloak
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_HOSTNAME=sso.lm.com
+      - KC_PROXY=edge
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import
+    command: ["start-dev", "--import-realm"]

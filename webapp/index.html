@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebApp on av.com</title>
+    <style>
+        body { font-family: sans-serif; padding: 2em; }
+        h1 { color: #336699; }
+        pre { background-color: #f4f4f4; padding: 1em; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        button { padding: 0.5em 1em; font-size: 1em; cursor: pointer; margin-right: 1em; }
+        #status { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to av.com</h1>
+    <p>This application demonstrates Keycloak authentication without third-party cookies.</p>
+    
+    <div>
+        <button id="loginBtn">Login</button>
+        <button id="logoutBtn" style="display: none;">Logout</button>
+        <button id="refreshBtn" style="display: none;">Refresh Token</button>
+    </div>
+
+    <h2>Status: <span id="status">Not Authenticated</span></h2>
+    
+    <h3>User Profile:</h3>
+    <pre id="userInfo">Not available</pre>
+
+    <h3>Parsed Access Token:</h3>
+    <pre id="tokenInfo">Not available</pre>
+
+    <!-- Cargamos los scripts como módulos -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
