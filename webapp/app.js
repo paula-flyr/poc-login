@@ -68,7 +68,22 @@ document.addEventListener('DOMContentLoaded', () => {
         updateUI();
     };
 
-    document.getElementById('loginBtn').addEventListener('click', () => keycloak.login());
+    window.addEventListener('message', (event) => {
+        if (event.origin !== window.location.origin) {
+            return;
+        }
+        if (event.data.type === 'keycloak-login-success') {
+            console.log('Login successful in popup. Reloading main page.');
+            window.location.reload();
+        } else if (event.data.type === 'keycloak-error') {
+            console.error('Login failed in popup:', event.data.error, event.data.details);
+        }
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', () => {
+        const loginUrl = keycloak.createLoginUrl({ redirectUri: window.location.origin + '/login-callback.html' });
+        window.open(loginUrl, 'keycloak-login', 'width=800,height=600');
+    });
     document.getElementById('logoutBtn').addEventListener('click', () => keycloak.logout());
     document.getElementById('refreshBtn').addEventListener('click', () => {
         keycloak.updateToken(30).then(refreshed => {
