@@ -13,8 +13,11 @@ services:
       - ./nginx/av.com.key:/etc/nginx/av.com.key
       - ./nginx/sso.lm.com.crt:/etc/nginx/sso.lm.com.crt
       - ./nginx/sso.lm.com.key:/etc/nginx/sso.lm.com.key
+      - ./nginx/av2.com.crt:/etc/nginx/av2.com.crt
+      - ./nginx/av2.com.key:/etc/nginx/av2.com.key
     depends_on:
       - webapp
+      - webapp2
       - keycloak
 
   webapp:
@@ -22,6 +25,12 @@ services:
     container_name: webapp
     volumes:
       - ./webapp:/usr/share/nginx/html
+
+  webapp2:
+    image: nginx:1.21-alpine
+    container_name: webapp2
+    volumes:
+      - ./webapp2:/usr/share/nginx/html
 
   keycloak:
     image: quay.io/keycloak/keycloak:22.0.1

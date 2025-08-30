@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Keycloak Login Callback</title>
+</head>
+<body>
+    <p>Processing login...</p>
+    <script src="https://unpkg.com/keycloak-js@22.0.1/dist/keycloak.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const keycloakConfig = {
+                url: 'https://sso.lm.com',
+                realm: 'my-realm',
+                clientId: 'my-webapp2'
+            };
+            const keycloak = new Keycloak(keycloakConfig);
+
+            keycloak.init({ onLoad: 'check-sso' }).then(() => {
+                if (keycloak.authenticated) {
+                    const tokens = {
+                        token: keycloak.token,
+                        refreshToken: keycloak.refreshToken,
+                        idToken: keycloak.idToken
+                    };
+                    localStorage.setItem('keycloak-tokens-docker', JSON.stringify(tokens));
+
+                    if (window.opener) {
+                        window.opener.postMessage({ type: 'keycloak-login-success' }, window.location.origin);
+                    }
+                    window.close();
+                } else {
+                    if (window.opener) {
+                        window.opener.postMessage({ type: 'keycloak-error', error: 'Authentication failed' }, window.location.origin);
+                    }
+                    window.close();
+                }
+            }).catch(error => {
+                if (window.opener) {
+                    window.opener.postMessage({ type: 'keycloak-error', error: 'Initialization failed in popup', details: error }, window.location.origin);
+                }
+                window.close();
+            });
+        });
+    </script>
+</body>
+</html>

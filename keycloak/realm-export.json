@@ -13,6 +13,18 @@
       "attributes": {
         "post.logout.redirect.uris": "https://av.com/"
       }
+    },
+    {
+      "clientId": "my-webapp2",
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": ["https://av2.com/*"],
+      "webOrigins": ["*"],
+      "rootUrl": "https://av2.com",
+      "protocol": "openid-connect",
+      "attributes": {
+        "post.logout.redirect.uris": "https://av2.com/"
+      }
     }
   ],
   "users": [

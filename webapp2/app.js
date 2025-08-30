@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const keycloakConfig = {
         url: 'https://sso.lm.com',      // APUNTANDO A HTTPS
         realm: 'my-realm',           // El realm que creamos en el docker-compose
-        clientId: 'my-webapp'        // El client ID que creamos para la app
+        clientId: 'my-webapp2'        // El client ID que creamos para la app
     };
 
     const keycloak = new Keycloak(keycloakConfig);
